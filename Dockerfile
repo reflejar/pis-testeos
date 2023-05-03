@@ -1,13 +1,13 @@
-# Stage 1
-FROM python:3.11-alpine as base
+FROM rocker/shiny:4.1.0
 
-RUN apk update
+RUN rm -rf /srv/shiny-server/*
 
-ADD requirements.txt /app/requirements.txt
-RUN pip install -r /app/requirements.txt
+WORKDIR /srv/shiny-server/
 
-ADD . /app
-WORKDIR /app
+COPY . ./
+
+EXPOSE 3838
+
 
 ARG BUILD_DATE
 ARG REVISION
@@ -19,7 +19,3 @@ LABEL revision $REVISION
 
 LABEL vendor "Democracia en Red & Reflejar"
 LABEL title "Pesticidas introducidos silenciosamente"
-
-EXPOSE 5000
-
-CMD [ "gunicorn", "main:server", "--bind", "0.0.0.0:5000", "--chdir=/app", "--timeout", "1800" ]

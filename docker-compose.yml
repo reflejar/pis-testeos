@@ -2,11 +2,9 @@ version: '3'
 
 
 services:
-  web: &web
+  app: &app
     build:
       context: .
-    image: pis-web:latest
-    volumes:
-      - .:/app
+    image: pis-testeos:latest
     ports:
-      - "5000:5000"
+      - "3838:3838"
